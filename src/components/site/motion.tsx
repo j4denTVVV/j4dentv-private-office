@@ -22,17 +22,15 @@ export function MaskHeading({ children, className, delay = 0, as = "h2" }: { chi
   const reduce = useReducedMotion();
   const Tag = motion[as];
   return (
-    <span className="block overflow-hidden pb-[0.06em]">
+    <motion.span className="block overflow-hidden pb-[0.06em]" initial="hidden" whileInView="show" viewport={{ once: true }}>
       <Tag
         className={className}
-        initial={reduce ? false : { y: "105%" }}
-        whileInView={{ y: 0 }}
-        viewport={{ once: true }}
+        variants={{ hidden: reduce ? { y: 0 } : { y: "105%" }, show: { y: 0 } }}
         transition={{ duration: 0.9, delay, ease: EASE }}
       >
         {children}
       </Tag>
-    </span>
+    </motion.span>
   );
 }
 

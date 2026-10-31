@@ -50,7 +50,7 @@ function ChapterIndex() {
     return () => io.disconnect();
   }, []);
   return (
-    <nav aria-label="Chapters" className="fixed left-6 top-1/2 z-40 hidden -translate-y-1/2 flex-col gap-3 xl:flex">
+    <nav aria-label="Chapters" className="fixed left-6 top-1/2 z-40 hidden -translate-y-1/2 flex-col gap-3 min-[1600px]:flex">
       {CHAPTERS.map((c) => (
         <a key={c.n} href={`#ch-${c.n}`} className={`group flex items-center gap-3 text-[11px] tracking-[0.2em] transition-colors duration-200 ${active === `ch-${c.n}` ? "text-foreground" : "text-subtle hover:text-muted-foreground"}`}>
           <span className={`h-px transition-all duration-300 ${active === `ch-${c.n}` ? "w-8 bg-champagne" : "w-4 bg-line-strong group-hover:w-6"}`} />
@@ -80,7 +80,7 @@ function Story() {
             <Photo src={PHOTOS.storyIntro} alt="Jaden" parallax onOpen={() => open(PHOTOS.storyIntro)} />
           </div>
           <div className="md:col-span-6 md:col-start-7 md:self-center">
-            <Reveal><p className="font-serif text-3xl leading-tight md:text-[2.6rem]">{INTRO[0]}</p></Reveal>
+            <Reveal><p className="font-serif text-3xl leading-tight md:text-[2.1rem]">{INTRO[0]}</p></Reveal>
             <div className="mt-8"><Body paras={INTRO.slice(1)} /></div>
           </div>
         </header>
