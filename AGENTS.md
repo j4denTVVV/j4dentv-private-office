@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Public site content lives in src/lib/site.ts until the CMS exists; shared UI primitives (motion, lux-button, lux-row utilities) are reused by public and Private HQ so both stay one design system.
