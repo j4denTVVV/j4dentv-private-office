@@ -10,7 +10,7 @@ import { enterOffice } from "@/lib/office/auth.functions";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/office")({
-  validateSearch: (s: Record<string, unknown>): { expired?: boolean } => ({ expired: s.expired ? true : undefined }),
+  validateSearch: (s: Record<string, unknown>): { expired?: boolean | undefined } => ({ expired: s["expired"] ? true : undefined }),
   head: () => ({
     meta: [
       { title: "The Private Office — J4denTV" },
