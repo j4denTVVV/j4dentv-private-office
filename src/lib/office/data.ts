@@ -57,6 +57,6 @@ export function useTable<T extends TName>(table: T, extraKeys: string[] = []) {
   return { insert, update, remove };
 }
 
-export const openSearch = (s: Record<string, unknown>): { open?: string } => ({
-  open: typeof s.open === "string" ? s.open : undefined,
+export const openSearch = (s: Record<string, unknown>): { open?: string | undefined } => ({
+  open: typeof s["open"] === "string" ? (s["open"] as string) : undefined,
 });

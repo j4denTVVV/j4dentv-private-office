@@ -153,3 +153,14 @@
   transform-origin: center;
   animation: blink 6.5s infinite;
 }
+
+@utility oi {
+  width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  padding: 0 0.875rem;
+  color: var(--foreground);
+  transition: border-color var(--dur-hover) var(--ease-lux);
+  &:focus { outline: none; border-color: var(--champagne); }
+}
