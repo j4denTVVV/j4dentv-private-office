@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as OfficeRouteImport } from './routes/office'
 import { Route as StoryRouteImport } from './routes/story'
+import { Route as AuthenticatedHqRouteImport } from './routes/_authenticated/hq'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OfficeRoute = OfficeRouteImport.update({
@@ -28,33 +34,49 @@ const StoryRoute = StoryRouteImport.update({
   path: '/story',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedHqRoute = AuthenticatedHqRouteImport.update({
+  id: '/hq',
+  path: '/hq',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/office': typeof OfficeRoute
   '/story': typeof StoryRoute
+  '/hq': typeof AuthenticatedHqRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/office': typeof OfficeRoute
   '/story': typeof StoryRoute
+  '/hq': typeof AuthenticatedHqRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/office': typeof OfficeRoute
   '/story': typeof StoryRoute
+  '/_authenticated/hq': typeof AuthenticatedHqRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/office' | '/story'
+  fullPaths: '/' | '/office' | '/story' | '/hq'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/office' | '/story'
-  id: '__root__' | '/' | '/office' | '/story'
+  to: '/' | '/office' | '/story' | '/hq'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/office'
+    | '/story'
+    | '/_authenticated/hq'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   OfficeRoute: typeof OfficeRoute
   StoryRoute: typeof StoryRoute
 }
@@ -66,6 +88,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/office': {
@@ -82,11 +111,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/hq': {
+      id: '/_authenticated/hq'
+      path: '/hq'
+      fullPath: '/hq'
+      preLoaderRoute: typeof AuthenticatedHqRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedHqRoute: typeof AuthenticatedHqRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedHqRoute: AuthenticatedHqRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   OfficeRoute: OfficeRoute,
   StoryRoute: StoryRoute,
 }
