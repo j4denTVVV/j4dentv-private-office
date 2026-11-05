@@ -1,0 +1,11 @@
+CREATE TABLE public.equipment (id uuid primary key default gen_random_uuid(), owner_id uuid not null default auth.uid(), name text not null, category text, brand text, price_gbp numeric, status text not null default 'wishlist', notes text, link text, created_at timestamptz not null default now());
+CREATE TABLE public.weekly_reviews (id uuid primary key default gen_random_uuid(), owner_id uuid not null default auth.uid(), week_start date not null, wins text, challenges text, performance text, worked text, improve text, priorities text, created_at timestamptz not null default now());
+CREATE TABLE public.analytics_entries (id uuid primary key default gen_random_uuid(), owner_id uuid not null default auth.uid(), platform text not null, metric text not null, value numeric not null, recorded_on date not null default current_date, notes text, created_at timestamptz not null default now());
+CREATE TABLE public.archive_items (id uuid primary key default gen_random_uuid(), owner_id uuid not null default auth.uid(), photo_key text not null, title text, description text, visibility text not null default 'private', created_at timestamptz not null default now(), unique(owner_id, photo_key));
+CREATE TABLE public.office_settings (owner_id uuid primary key default auth.uid(), display_name text, reduce_motion boolean not null default false, play_opening boolean not null default true, notify_streams boolean not null default true, created_at timestamptz not null default now());
+DO $$ DECLARE t text; BEGIN FOREACH t IN ARRAY ARRAY['equipment','weekly_reviews','analytics_entries','archive_items','office_settings'] LOOP
+EXECUTE format('GRANT SELECT, INSERT, UPDATE, DELETE ON public.%I TO authenticated', t);
+EXECUTE format('GRANT ALL ON public.%I TO service_role', t);
+EXECUTE format('ALTER TABLE public.%I ENABLE ROW LEVEL SECURITY', t);
+EXECUTE format('CREATE POLICY "owner only" ON public.%I FOR ALL TO authenticated USING (owner_id = auth.uid() AND office_session_ok()) WITH CHECK (owner_id = auth.uid() AND office_session_ok())', t);
+END LOOP; END $$;
