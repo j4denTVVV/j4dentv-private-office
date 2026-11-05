@@ -75,7 +75,7 @@ export type Field = {
 
 export function RecordDialog({ open, onClose, title, fields, initial, onSubmit, busy, onDelete }: {
   open: boolean; onClose: () => void; title: string; fields: Field[];
-  initial?: Record<string, unknown>; onSubmit: (v: Record<string, unknown>) => void | Promise<void>; busy?: boolean; onDelete?: () => void;
+  initial?: Record<string, unknown> | undefined; onSubmit: (v: Record<string, unknown>) => void | Promise<void>; busy?: boolean | undefined; onDelete?: (() => void) | undefined;
 }) {
   const [v, setV] = useState<Record<string, unknown>>({});
   useEffect(() => { if (open) setV(initial ?? {}); }, [open, initial]);
