@@ -164,3 +164,31 @@
   transition: border-color var(--dur-hover) var(--ease-lux);
   &:focus { outline: none; border-color: var(--champagne); }
 }
+
+/* Private Office scope — its own warmer palette and editorial type, same system. */
+.office {
+  --background: #10100f;
+  --surface: #191917;
+  --elevated: #1f1f1c;
+  --hover: #262622;
+  --foreground: #f2efe8;
+  --muted-foreground: #96938c;
+  --subtle: #6f6c66;
+  --champagne: #b69a70;
+  --line: #302e2a;
+  --line-strong: #45423c;
+  background: var(--background);
+  color: var(--foreground);
+}
+@utility office-h {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+@utility olabel {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
