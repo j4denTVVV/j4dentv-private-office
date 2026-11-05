@@ -38,6 +38,69 @@ export type Database = {
         }
         Relationships: []
       }
+      analytics_entries: {
+        Row: {
+          created_at: string
+          id: string
+          metric: string
+          notes: string | null
+          owner_id: string
+          platform: string
+          recorded_on: string
+          value: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          metric: string
+          notes?: string | null
+          owner_id?: string
+          platform: string
+          recorded_on?: string
+          value: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          metric?: string
+          notes?: string | null
+          owner_id?: string
+          platform?: string
+          recorded_on?: string
+          value?: number
+        }
+        Relationships: []
+      }
+      archive_items: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          owner_id: string
+          photo_key: string
+          title: string | null
+          visibility: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          owner_id?: string
+          photo_key: string
+          title?: string | null
+          visibility?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          owner_id?: string
+          photo_key?: string
+          title?: string | null
+          visibility?: string
+        }
+        Relationships: []
+      }
       collabs: {
         Row: {
           audience: string | null
@@ -149,6 +212,45 @@ export type Database = {
           status?: string
           thumbnail_url?: string | null
           title?: string
+        }
+        Relationships: []
+      }
+      equipment: {
+        Row: {
+          brand: string | null
+          category: string | null
+          created_at: string
+          id: string
+          link: string | null
+          name: string
+          notes: string | null
+          owner_id: string
+          price_gbp: number | null
+          status: string
+        }
+        Insert: {
+          brand?: string | null
+          category?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          name: string
+          notes?: string | null
+          owner_id?: string
+          price_gbp?: number | null
+          status?: string
+        }
+        Update: {
+          brand?: string | null
+          category?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          name?: string
+          notes?: string | null
+          owner_id?: string
+          price_gbp?: number | null
+          status?: string
         }
         Relationships: []
       }
@@ -405,6 +507,33 @@ export type Database = {
         }
         Relationships: []
       }
+      office_settings: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          notify_streams: boolean
+          owner_id: string
+          play_opening: boolean
+          reduce_motion: boolean
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          notify_streams?: boolean
+          owner_id?: string
+          play_opening?: boolean
+          reduce_motion?: boolean
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          notify_streams?: boolean
+          owner_id?: string
+          play_opening?: boolean
+          reduce_motion?: boolean
+        }
+        Relationships: []
+      }
       stream_segments: {
         Row: {
           checklist: Json
@@ -560,6 +689,45 @@ export type Database = {
           related_type?: string | null
           status?: string
           title?: string
+        }
+        Relationships: []
+      }
+      weekly_reviews: {
+        Row: {
+          challenges: string | null
+          created_at: string
+          id: string
+          improve: string | null
+          owner_id: string
+          performance: string | null
+          priorities: string | null
+          week_start: string
+          wins: string | null
+          worked: string | null
+        }
+        Insert: {
+          challenges?: string | null
+          created_at?: string
+          id?: string
+          improve?: string | null
+          owner_id?: string
+          performance?: string | null
+          priorities?: string | null
+          week_start: string
+          wins?: string | null
+          worked?: string | null
+        }
+        Update: {
+          challenges?: string | null
+          created_at?: string
+          id?: string
+          improve?: string | null
+          owner_id?: string
+          performance?: string | null
+          priorities?: string | null
+          week_start?: string
+          wins?: string | null
+          worked?: string | null
         }
         Relationships: []
       }
