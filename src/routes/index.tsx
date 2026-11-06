@@ -79,7 +79,7 @@ function Hero() {
           className="photo-zoom relative aspect-[4/5] rounded-lg bg-surface shadow-[var(--shadow-photo)] lg:max-h-[78vh]"
         >
           <button onClick={() => open(PHOTOS.hero)} className="h-full w-full cursor-zoom-in" aria-label="Open photograph">
-            <img src={PHOTOS.hero} alt="Jaden" className="h-full w-full object-cover object-[50%_35%]" />
+            <img src={PHOTOS.hero} alt="Jaden" className="h-full w-full object-cover object-[50%_35%]" style={{ animation: reduce ? undefined : "kenburns 18s ease-in-out infinite alternate" }} />
           </button>
         </motion.div>
       </div>

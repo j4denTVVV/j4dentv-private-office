@@ -4,13 +4,25 @@ import chEarly from "@/assets/photos/ch-early.jpg.asset.json";
 import chLive from "@/assets/photos/ch-going-live.jpg.asset.json";
 import chBecoming from "@/assets/photos/ch-becoming.jpg.asset.json";
 import chBeyond from "@/assets/photos/ch-beyond.jpg.asset.json";
+import heroHeadset from "@/assets/photos/hero-headset.jpg.asset.json";
+import ch1a from "@/assets/photos/ch1-stairs.jpg.asset.json";
+import ch1b from "@/assets/photos/ch1-winter.png.asset.json";
+import ch2 from "@/assets/photos/ch2-water.png.asset.json";
+import ch3 from "@/assets/photos/ch3-setup.jpg.asset.json";
+import ch4 from "@/assets/photos/ch4-ps5.png.asset.json";
+import ch5a from "@/assets/photos/ch5-screen.jpg.asset.json";
+import ch5b from "@/assets/photos/ch5-mirror.jpg.asset.json";
+import ch6b from "@/assets/photos/ch6-friend.jpg.asset.json";
 import logo from "@/assets/logo-4tv.png.asset.json";
 
 // Phase 1 static content. Will move to the CMS (Biography Editor / Website Manager) in Phase 3.
 export const LOGO = logo.url;
 
 export const PHOTOS = {
-  hero: hero.url,
+  hero: heroHeadset.url,
+  heroOld: hero.url,
+  ch1a: ch1a.url, ch1b: ch1b.url, ch2: ch2.url, ch3: ch3.url, ch4: ch4.url,
+  ch5a: ch5a.url, ch5b: ch5b.url, ch6b: ch6b.url,
   storyIntro: storyIntro.url,
   early: chEarly.url,
   live: chLive.url,
