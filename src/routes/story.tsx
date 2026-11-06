@@ -63,7 +63,7 @@ function ChapterIndex() {
 
 function Story() {
   const open = useLightbox();
-  const [c1, c2, c3, c4, c5, c6] = CHAPTERS;
+  const [c1, c2, c3, c4, c5, c6] = CHAPTERS as unknown as [typeof CHAPTERS[number], typeof CHAPTERS[number], typeof CHAPTERS[number], typeof CHAPTERS[number], typeof CHAPTERS[number], typeof CHAPTERS[number]];
   return (
     <div className="overflow-x-clip">
       <Navbar />
@@ -80,7 +80,7 @@ function Story() {
             <Photo src={PHOTOS.storyIntro} alt="Jaden" parallax onOpen={() => open(PHOTOS.storyIntro)} />
           </div>
           <div className="md:col-span-6 md:col-start-7 md:self-center">
-            <Reveal><p className="font-serif text-3xl leading-tight md:text-[2.1rem]">{INTRO[0]}</p></Reveal>
+            <Reveal><p className="font-serif text-3xl leading-tight md:text-[2.1rem]">{INTRO[0] ?? ""}</p></Reveal>
             <div className="mt-8"><Body paras={INTRO.slice(1)} /></div>
           </div>
         </header>

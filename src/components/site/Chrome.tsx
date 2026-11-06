@@ -49,7 +49,7 @@ export function Navbar() {
         </Link>
         <nav className="hidden items-center gap-8 lg:flex">
           {NAV.map((n) => (
-            <Link key={n.label} to={n.to} hash={n.hash} activeOptions={{ exact: true, includeHash: true }} className="link-draw text-[12px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground data-[status=active]:text-foreground">
+            <Link key={n.label} to={n.to} {...(n.hash ? { hash: n.hash } : {})} activeOptions={{ exact: true, includeHash: true }} className="link-draw text-[12px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground data-[status=active]:text-foreground">
               {n.label}
             </Link>
           ))}
@@ -73,7 +73,7 @@ export function Navbar() {
             <nav className="mt-14 flex flex-col gap-2">
               {NAV.map((n, i) => (
                 <motion.div key={n.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 + i * 0.06, duration: 0.5, ease: EASE }}>
-                  <Link to={n.to} hash={n.hash} onClick={() => setOpen(false)} className="display block py-2 text-5xl">{n.label}</Link>
+                  <Link to={n.to} {...(n.hash ? { hash: n.hash } : {})} onClick={() => setOpen(false)} className="display block py-2 text-5xl">{n.label}</Link>
                 </motion.div>
               ))}
             </nav>
