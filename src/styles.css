@@ -145,6 +145,11 @@
   &:hover img { transform: scale(1.02); filter: contrast(1.06); }
 }
 
+@keyframes kenburns {
+  from { transform: scale(1); }
+  to { transform: scale(1.07) translateY(-1.5%); }
+}
+
 @keyframes blink {
   0%, 92%, 100% { transform: scaleY(1); }
   95% { transform: scaleY(0.08); }

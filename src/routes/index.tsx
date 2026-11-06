@@ -79,7 +79,7 @@ function Hero() {
           className="photo-zoom relative aspect-[4/5] rounded-lg bg-surface shadow-[var(--shadow-photo)] lg:max-h-[78vh]"
         >
           <button onClick={() => open(PHOTOS.hero)} className="h-full w-full cursor-zoom-in" aria-label="Open photograph">
-            <img src={PHOTOS.hero} alt="Jaden" className="h-full w-full object-cover object-[50%_35%]" />
+            <img src={PHOTOS.hero} alt="Jaden" className="h-full w-full object-cover object-[50%_35%]" style={{ animation: reduce ? undefined : "kenburns 18s ease-in-out infinite alternate" }} />
           </button>
         </motion.div>
       </div>
@@ -98,7 +98,7 @@ function StoryTeaser() {
         </div>
         <div className="md:col-span-6 md:col-start-7 md:pt-10">
           <Reveal>
-            <p className="font-serif text-3xl leading-tight text-foreground md:text-4xl">“{INTRO[0].split(". ")[0]}.”</p>
+            <p className="font-serif text-3xl leading-tight text-foreground md:text-4xl">“{(INTRO[0] ?? "").split(". ")[0]}.”</p>
           </Reveal>
           {INTRO.slice(1).map((p, i) => (
             <Reveal key={i} delay={0.1 + i * 0.08}>
@@ -121,7 +121,7 @@ function StoryTeaser() {
 
 function Photographs() {
   const open = useLightbox();
-  const ps = [PHOTOS.beyond, PHOTOS.live, PHOTOS.becoming];
+  const ps: [string, string, string] = [PHOTOS.beyond, PHOTOS.live, PHOTOS.becoming];
   return (
     <section id="photographs" className="scroll-mt-20 mx-auto max-w-[1440px] px-6 py-24 md:px-10">
       <SectionHead index="02" label="Archive" title="Photographs." />

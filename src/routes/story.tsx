@@ -63,7 +63,7 @@ function ChapterIndex() {
 
 function Story() {
   const open = useLightbox();
-  const [c1, c2, c3, c4, c5, c6] = CHAPTERS;
+  const [c1, c2, c3, c4, c5, c6] = CHAPTERS as unknown as [typeof CHAPTERS[number], typeof CHAPTERS[number], typeof CHAPTERS[number], typeof CHAPTERS[number], typeof CHAPTERS[number], typeof CHAPTERS[number]];
   return (
     <div className="overflow-x-clip">
       <Navbar />
@@ -80,16 +80,19 @@ function Story() {
             <Photo src={PHOTOS.storyIntro} alt="Jaden" parallax onOpen={() => open(PHOTOS.storyIntro)} />
           </div>
           <div className="md:col-span-6 md:col-start-7 md:self-center">
-            <Reveal><p className="font-serif text-3xl leading-tight md:text-[2.1rem]">{INTRO[0]}</p></Reveal>
+            <Reveal><p className="font-serif text-3xl leading-tight md:text-[2.1rem]">{INTRO[0] ?? ""}</p></Reveal>
             <div className="mt-8"><Body paras={INTRO.slice(1)} /></div>
           </div>
         </header>
 
         {/* 01 — narrow number, wide text, tall photo */}
         <section id={`ch-${c1.n}`} className="grid scroll-mt-24 gap-10 border-t border-line py-24 md:grid-cols-12">
-          <p className="display text-8xl text-elevated md:col-span-2">{c1.n}</p>
+          <Reveal className="md:col-span-2" y={60}><p className="display text-8xl text-elevated">{c1.n}</p></Reveal>
           <div className="md:col-span-5"><ChapterHead n={c1.n} title={c1.title} /><Body paras={c1.body} /></div>
-          <div className="md:col-span-4 md:col-start-9"><Photo src={PHOTOS.early} alt="" ratio="aspect-[9/14]" onOpen={() => open(PHOTOS.early)} /></div>
+          <div className="grid grid-cols-2 gap-4 md:col-span-5 md:col-start-8">
+            <Photo src={PHOTOS.ch1a} alt="Jaden as a child on the stairs" ratio="aspect-[3/4]" parallax onOpen={() => open(PHOTOS.ch1a)} />
+            <Photo src={PHOTOS.ch1b} alt="Jaden as a child outdoors in winter" ratio="aspect-[3/4]" className="mt-16" parallax onOpen={() => open(PHOTOS.ch1b)} />
+          </div>
         </section>
 
         {/* 02 — large heading, text, two photos */}
@@ -97,16 +100,15 @@ function Story() {
           <ChapterHead n={c2.n} title={c2.title} big />
           <div className="grid gap-10 md:grid-cols-12">
             <div className="md:col-span-5"><Body paras={c2.body} /></div>
-            <div className="grid grid-cols-2 gap-4 md:col-span-6 md:col-start-7">
-              <Photo src={PHOTOS.live} alt="" ratio="aspect-[3/4]" onOpen={() => open(PHOTOS.live)} />
-              <Photo src={PHOTOS.becoming} alt="" ratio="aspect-[3/4]" className="mt-16" onOpen={() => open(PHOTOS.becoming)} />
+            <div className="md:col-span-5 md:col-start-8">
+              <Photo src={PHOTOS.ch2} alt="Jaden as a child by the water" ratio="aspect-[4/5]" parallax onOpen={() => open(PHOTOS.ch2)} />
             </div>
           </div>
         </section>
 
         {/* 03 — full-width photographic transition */}
         <section id={`ch-${c3.n}`} className="scroll-mt-24 border-t border-line py-24">
-          <Photo src={PHOTOS.beyond} alt="" ratio="aspect-[16/9] md:aspect-[21/9]" parallax onOpen={() => open(PHOTOS.beyond)} />
+          <Photo src={PHOTOS.ch3} alt="Jaden at his streaming setup" ratio="aspect-[16/9] md:aspect-[21/9]" parallax onOpen={() => open(PHOTOS.ch3)} />
           <div className="mt-14 grid gap-10 md:grid-cols-12">
             <div className="md:col-span-4"><ChapterHead n={c3.n} title={c3.title} /></div>
             <div className="md:col-span-6 md:col-start-6"><Body paras={c3.body} /></div>
@@ -115,7 +117,7 @@ function Story() {
 
         {/* 04 — balanced columns */}
         <section id={`ch-${c4.n}`} className="grid scroll-mt-24 gap-12 border-t border-line py-24 md:grid-cols-2 md:items-center">
-          <Photo src={PHOTOS.hero} alt="" ratio="aspect-[4/5]" onOpen={() => open(PHOTOS.hero)} />
+          <Photo src={PHOTOS.ch4} alt="Jaden holding a PlayStation 5" ratio="aspect-[4/5]" parallax onOpen={() => open(PHOTOS.ch4)} />
           <div><ChapterHead n={c4.n} title={c4.title} big /><Body paras={c4.body} /></div>
         </section>
 
@@ -124,6 +126,10 @@ function Story() {
           <div className="mx-auto max-w-2xl">
             <ChapterHead n={c5.n} title={c5.title} />
             <Body paras={c5.body} />
+            <div className="mt-12 grid grid-cols-2 gap-4">
+              <Photo src={PHOTOS.ch5a} alt="Jaden on screen in a streaming setup" ratio="aspect-[3/4]" parallax onOpen={() => open(PHOTOS.ch5a)} />
+              <Photo src={PHOTOS.ch5b} alt="Jaden taking a mirror selfie" ratio="aspect-[3/4]" className="mt-12" parallax onOpen={() => open(PHOTOS.ch5b)} />
+            </div>
             <Reveal delay={0.2}><p className="mt-12 border-l border-champagne pl-6 font-serif text-3xl italic">A growing community, known as 4TV.</p></Reveal>
           </div>
         </section>
@@ -133,7 +139,10 @@ function Story() {
           <div className="md:col-span-6"><ChapterHead n={c6.n} title={c6.title} big /><Body paras={c6.body} />
             <Reveal delay={0.3}><div className="mt-12 flex items-center gap-3 text-subtle"><Eye /><span className="eyebrow">To be continued</span></div></Reveal>
           </div>
-          <div className="md:col-span-5 md:col-start-8"><Photo src={PHOTOS.early} alt="" ratio="aspect-[4/5]" onOpen={() => open(PHOTOS.early)} /></div>
+          <div className="grid grid-cols-2 gap-4 md:col-span-5 md:col-start-8">
+            <Photo src={PHOTOS.early} alt="" ratio="aspect-[3/4]" parallax onOpen={() => open(PHOTOS.early)} />
+            <Photo src={PHOTOS.ch6b} alt="Jaden outdoors with a friend" ratio="aspect-[3/4]" className="mt-16" parallax onOpen={() => open(PHOTOS.ch6b)} />
+          </div>
         </section>
       </main>
       <Footer />
