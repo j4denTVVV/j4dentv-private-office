@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowRight, ArrowUpRight, Globe } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Navbar, Footer } from "@/components/site/Chrome";
-import { EASE, Line, MaskHeading, Photo, Reveal } from "@/components/site/motion";
+import { EASE, Photo, Reveal } from "@/components/site/motion";
 import { useLightbox } from "@/components/site/Lightbox";
-import { SocialIcon } from "@/components/site/SocialIcon";
+import { SectionHead } from "@/components/site/sections";
 import { lux } from "@/components/ui/lux-button";
-import { ELSEWHERE, INTRO, PHOTOS, SOCIALS } from "@/lib/site";
+import { INTRO, PHOTOS } from "@/lib/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -21,18 +21,6 @@ export const Route = createFileRoute("/")({
   }),
   component: Home,
 });
-
-function SectionHead({ index, label, title }: { index: string; label: string; title: string }) {
-  return (
-    <div className="mb-12 grid gap-6 md:grid-cols-12 md:items-end">
-      <div className="md:col-span-8">
-        <Reveal><p className="eyebrow">{index} / {label}</p></Reveal>
-        <MaskHeading className="display mt-4 text-6xl md:text-8xl">{title}</MaskHeading>
-      </div>
-      <div className="md:col-span-4"><Line delay={0.2} /></div>
-    </div>
-  );
-}
 
 function Hero() {
   const reduce = useReducedMotion();
@@ -119,95 +107,22 @@ function StoryTeaser() {
   );
 }
 
-function Photographs() {
-  const open = useLightbox();
-  const ps: [string, string, string] = [PHOTOS.beyond, PHOTOS.live, PHOTOS.becoming];
+function Explore() {
+  const items = [
+    { to: "/photographs" as const, n: "02", t: "Photographs" },
+    { to: "/content" as const, n: "03", t: "Content" },
+    { to: "/elsewhere" as const, n: "04", t: "Elsewhere" },
+    { to: "/find-me" as const, n: "05", t: "Find me" },
+  ];
   return (
-    <section id="photographs" className="scroll-mt-20 mx-auto max-w-[1440px] px-6 py-24 md:px-10">
-      <SectionHead index="02" label="Archive" title="Photographs." />
-      <div className="grid gap-4 md:grid-cols-12 md:grid-rows-2">
-        <Photo src={ps[0]} alt="" ratio="aspect-[619/573] md:aspect-auto md:h-full" className="md:col-span-7 md:row-span-2" onOpen={() => open(ps[0])} />
-        <Photo src={ps[1]} alt="" ratio="aspect-[4/5]" className="md:col-span-5 md:aspect-[16/11]" onOpen={() => open(ps[1])} />
-        <Photo src={ps[2]} alt="" ratio="aspect-[4/5]" className="md:col-span-5 md:aspect-[16/11]" onOpen={() => open(ps[2])} />
-      </div>
-    </section>
-  );
-}
-
-function Content() {
-  const platforms = SOCIALS.filter((s) => ["Twitch", "YouTube", "TikTok", "Instagram"].includes(s.name));
-  return (
-    <section id="content" className="scroll-mt-20 mx-auto max-w-[1440px] px-6 py-24 md:px-10">
-      <SectionHead index="03" label="Watch" title="Content." />
+    <section className="mx-auto max-w-[1440px] px-6 pb-32 pt-12 md:px-10">
       <div className="grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-        {platforms.map((p, i) => (
-          <Reveal key={p.name} delay={i * 0.07} y={12}>
-            <a href={p.url} target="_blank" rel="noreferrer" className="group flex h-full min-h-56 flex-col justify-between bg-background p-6 transition-colors duration-200 hover:bg-surface">
-              <div className="flex items-center justify-between text-muted-foreground">
-                <SocialIcon name={p.name} className="h-5 w-5 transition-colors group-hover:text-foreground" />
-                <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-champagne" />
-              </div>
-              <div>
-                <p className="display text-4xl">{p.name}</p>
-                <p className="mt-2 text-sm text-subtle">{p.name === "Twitch" ? "Live streams" : p.name === "YouTube" ? "Videos & Shorts" : p.name === "TikTok" ? "Short-form clips" : "Reels"}</p>
-              </div>
-            </a>
-          </Reveal>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Rows({ items }: { items: { icon: React.ReactNode; name: string; desc: string; url: string }[] }) {
-  return (
-    <div className="flex flex-col gap-2">
-      {items.map((it, i) => (
-        <Reveal key={it.url} delay={i * 0.06} y={10}>
-          <a href={it.url} target="_blank" rel="noreferrer" className="lux-row grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-5 px-5 py-5">
-            <span className="grid h-10 w-10 place-items-center rounded-lg border border-line text-muted-foreground">{it.icon}</span>
-            <span className="min-w-0">
-              <span className="block truncate text-lg">{it.name}</span>
-              <span className="block truncate text-sm text-subtle">{it.desc}</span>
-            </span>
-            <ArrowUpRight className="lux-arrow h-4 w-4 text-muted-foreground" />
-          </a>
-        </Reveal>
-      ))}
-    </div>
-  );
-}
-
-function Elsewhere() {
-  return (
-    <section id="elsewhere" className="scroll-mt-20 mx-auto grid max-w-[1440px] gap-12 px-6 py-24 md:grid-cols-12 md:px-10">
-      <div className="md:col-span-5">
-        <Reveal><p className="eyebrow">04 / Featured</p></Reveal>
-        <MaskHeading className="display mt-4 text-6xl md:text-7xl">Elsewhere.</MaskHeading>
-      </div>
-      <div className="md:col-span-7">
-        <Rows items={ELSEWHERE.map((e) => ({ ...e, icon: <Globe className="h-4 w-4" /> }))} />
-      </div>
-    </section>
-  );
-}
-
-function FindMe() {
-  return (
-    <section id="find-me" className="scroll-mt-20 mx-auto grid max-w-[1440px] gap-12 px-6 pb-32 pt-24 md:grid-cols-12 md:px-10">
-      <div className="md:col-span-5">
-        <Reveal><p className="eyebrow">05 / Socials</p></Reveal>
-        <MaskHeading className="display mt-4 text-6xl md:text-7xl">Find me.</MaskHeading>
-        <Reveal delay={0.15}><p className="mt-6 max-w-sm font-serif text-2xl italic text-muted-foreground">Live on Twitch, everywhere else in between.</p></Reveal>
-      </div>
-      <div className="grid gap-2 sm:grid-cols-2 md:col-span-7">
-        {SOCIALS.map((s, i) => (
-          <Reveal key={s.name} delay={i * 0.05} y={10}>
-            <a href={s.url} target="_blank" rel="noreferrer" className="lux-row grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 px-4 py-4">
-              <SocialIcon name={s.name} className="h-5 w-5 text-foreground" />
-              <span className="min-w-0"><span className="block text-sm">{s.name}</span><span className="block truncate text-xs text-subtle">{s.handle}</span></span>
-              <ArrowUpRight className="lux-arrow h-4 w-4 text-muted-foreground" />
-            </a>
+        {items.map((it, i) => (
+          <Reveal key={it.to} delay={i * 0.08} y={20}>
+            <Link to={it.to} className="group flex h-full min-h-48 flex-col justify-between bg-background p-6 transition-colors duration-300 hover:bg-surface">
+              <div className="flex items-center justify-between"><span className="eyebrow">{it.n}</span><ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-champagne" /></div>
+              <p className="display text-5xl transition-transform duration-500 group-hover:translate-x-1">{it.t}.</p>
+            </Link>
           </Reveal>
         ))}
       </div>
@@ -222,10 +137,7 @@ function Home() {
       <main>
         <Hero />
         <StoryTeaser />
-        <Photographs />
-        <Content />
-        <Elsewhere />
-        <FindMe />
+        <Explore />
       </main>
       <Footer />
     </div>

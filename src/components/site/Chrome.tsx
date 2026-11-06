@@ -9,10 +9,10 @@ import { SocialIcon } from "./SocialIcon";
 const NAV = [
   { label: "Home", to: "/" as const, hash: undefined },
   { label: "My Story", to: "/story" as const, hash: undefined },
-  { label: "Photographs", to: "/" as const, hash: "photographs" },
-  { label: "Content", to: "/" as const, hash: "content" },
-  { label: "Elsewhere", to: "/" as const, hash: "elsewhere" },
-  { label: "Find Me", to: "/" as const, hash: "find-me" },
+  { label: "Photographs", to: "/photographs" as const, hash: undefined },
+  { label: "Content", to: "/content" as const, hash: undefined },
+  { label: "Elsewhere", to: "/elsewhere" as const, hash: undefined },
+  { label: "Find Me", to: "/find-me" as const, hash: undefined },
 ];
 
 export function Eye({ blink = true, className = "h-3 w-6" }: { blink?: boolean; className?: string }) {
