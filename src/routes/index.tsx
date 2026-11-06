@@ -5,6 +5,7 @@ import { Navbar, Footer } from "@/components/site/Chrome";
 import { EASE, Photo, Reveal } from "@/components/site/motion";
 import { useLightbox } from "@/components/site/Lightbox";
 import { SectionHead } from "@/components/site/sections";
+import { SocialIcon } from "@/components/site/SocialIcon";
 import { lux } from "@/components/ui/lux-button";
 import { INTRO, PHOTOS } from "@/lib/site";
 

@@ -4,7 +4,7 @@ import { useLightbox } from "./Lightbox";
 import { SocialIcon } from "./SocialIcon";
 import { ELSEWHERE, PHOTOS, SOCIALS } from "@/lib/site";
 
-export export function SectionHead({ index, label, title, as = "h2" }: { index: string; label: string; title: string; as?: "h1" | "h2" }) {
+export function SectionHead({ index, label, title, as = "h2" }: { index: string; label: string; title: string; as?: "h1" | "h2" }) {
   return (
     <div className="mb-12 grid gap-6 md:grid-cols-12 md:items-end">
       <div className="md:col-span-8">
