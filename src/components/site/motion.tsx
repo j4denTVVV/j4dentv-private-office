@@ -46,7 +46,7 @@ export function Line({ delay = 0, className = "" }: { delay?: number; className?
   );
 }
 
-export function Photo({ src, alt, className = "", ratio = "aspect-[4/5]", parallax = false, onOpen }: { src: string; alt: string; className?: string; ratio?: string; parallax?: boolean; onOpen?: () => void }) {
+export function Photo({ src, alt, className = "", ratio = "aspect-[4/5]", parallax = false, onOpen, position = "object-center" }: { src: string; alt: string; className?: string; ratio?: string; parallax?: boolean; onOpen?: () => void; position?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
@@ -61,7 +61,7 @@ export function Photo({ src, alt, className = "", ratio = "aspect-[4/5]", parall
       transition={{ duration: 1.05, ease: EASE }}
     >
       <button type="button" onClick={onOpen} className="absolute inset-0 block h-full w-full cursor-zoom-in" aria-label="Open photograph">
-        <motion.img style={{ y, scale: parallax ? 1.18 : 1 }} src={src} alt={alt} loading="lazy" className="h-full w-full object-cover" />
+        <motion.img style={{ y, scale: parallax ? 1.18 : 1 }} src={src} alt={alt} loading="lazy" className={`h-full w-full object-cover ${position}`} />
       </button>
     </motion.div>
   );

@@ -11,7 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as ContentRouteImport } from './routes/content'
+import { Route as ElsewhereRouteImport } from './routes/elsewhere'
+import { Route as FindMeRouteImport } from './routes/find-me'
 import { Route as OfficeRouteImport } from './routes/office'
+import { Route as PhotographsRouteImport } from './routes/photographs'
 import { Route as StoryRouteImport } from './routes/story'
 import { Route as AuthenticatedHqRouteImport } from './routes/_authenticated/hq'
 
@@ -24,9 +28,29 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContentRoute = ContentRouteImport.update({
+  id: '/content',
+  path: '/content',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ElsewhereRoute = ElsewhereRouteImport.update({
+  id: '/elsewhere',
+  path: '/elsewhere',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FindMeRoute = FindMeRouteImport.update({
+  id: '/find-me',
+  path: '/find-me',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OfficeRoute = OfficeRouteImport.update({
   id: '/office',
   path: '/office',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PhotographsRoute = PhotographsRouteImport.update({
+  id: '/photographs',
+  path: '/photographs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StoryRoute = StoryRouteImport.update({
@@ -42,13 +66,21 @@ const AuthenticatedHqRoute = AuthenticatedHqRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/content': typeof ContentRoute
+  '/elsewhere': typeof ElsewhereRoute
+  '/find-me': typeof FindMeRoute
   '/office': typeof OfficeRoute
+  '/photographs': typeof PhotographsRoute
   '/story': typeof StoryRoute
   '/hq': typeof AuthenticatedHqRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/content': typeof ContentRoute
+  '/elsewhere': typeof ElsewhereRoute
+  '/find-me': typeof FindMeRoute
   '/office': typeof OfficeRoute
+  '/photographs': typeof PhotographsRoute
   '/story': typeof StoryRoute
   '/hq': typeof AuthenticatedHqRoute
 }
@@ -56,20 +88,44 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/content': typeof ContentRoute
+  '/elsewhere': typeof ElsewhereRoute
+  '/find-me': typeof FindMeRoute
   '/office': typeof OfficeRoute
+  '/photographs': typeof PhotographsRoute
   '/story': typeof StoryRoute
   '/_authenticated/hq': typeof AuthenticatedHqRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/office' | '/story' | '/hq'
+  fullPaths:
+    | '/'
+    | '/content'
+    | '/elsewhere'
+    | '/find-me'
+    | '/office'
+    | '/photographs'
+    | '/story'
+    | '/hq'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/office' | '/story' | '/hq'
+  to:
+    | '/'
+    | '/content'
+    | '/elsewhere'
+    | '/find-me'
+    | '/office'
+    | '/photographs'
+    | '/story'
+    | '/hq'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/content'
+    | '/elsewhere'
+    | '/find-me'
     | '/office'
+    | '/photographs'
     | '/story'
     | '/_authenticated/hq'
   fileRoutesById: FileRoutesById
@@ -77,7 +133,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  ContentRoute: typeof ContentRoute
+  ElsewhereRoute: typeof ElsewhereRoute
+  FindMeRoute: typeof FindMeRoute
   OfficeRoute: typeof OfficeRoute
+  PhotographsRoute: typeof PhotographsRoute
   StoryRoute: typeof StoryRoute
 }
 
@@ -97,11 +157,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/content': {
+      id: '/content'
+      path: '/content'
+      fullPath: '/content'
+      preLoaderRoute: typeof ContentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/elsewhere': {
+      id: '/elsewhere'
+      path: '/elsewhere'
+      fullPath: '/elsewhere'
+      preLoaderRoute: typeof ElsewhereRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/find-me': {
+      id: '/find-me'
+      path: '/find-me'
+      fullPath: '/find-me'
+      preLoaderRoute: typeof FindMeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/office': {
       id: '/office'
       path: '/office'
       fullPath: '/office'
       preLoaderRoute: typeof OfficeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/photographs': {
+      id: '/photographs'
+      path: '/photographs'
+      fullPath: '/photographs'
+      preLoaderRoute: typeof PhotographsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/story': {
@@ -135,7 +223,11 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  ContentRoute: ContentRoute,
+  ElsewhereRoute: ElsewhereRoute,
+  FindMeRoute: FindMeRoute,
   OfficeRoute: OfficeRoute,
+  PhotographsRoute: PhotographsRoute,
   StoryRoute: StoryRoute,
 }
 export const routeTree = rootRouteImport

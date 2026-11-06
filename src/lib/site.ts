@@ -13,6 +13,8 @@ import ch4 from "@/assets/photos/ch4-ps5.png.asset.json";
 import ch5a from "@/assets/photos/ch5-screen.jpg.asset.json";
 import ch5b from "@/assets/photos/ch5-mirror.jpg.asset.json";
 import ch6b from "@/assets/photos/ch6-friend.jpg.asset.json";
+import phBadge from "@/assets/prospect-house-badge.png.asset.json";
+import psEmblem from "@/assets/prison-stream-emblem.png.asset.json";
 import logo from "@/assets/logo-4tv.png.asset.json";
 
 // Phase 1 static content. Will move to the CMS (Biography Editor / Website Manager) in Phase 3.
@@ -40,8 +42,8 @@ export const SOCIALS = [
 ] as const;
 
 export const ELSEWHERE = [
-  { name: "Prospect House", desc: "J4denTV's creator profile on Prospect House.", url: "https://prospect-house.com/members/j4dentv" },
-  { name: "Prison Stream", desc: "Roster entry #029.", url: "https://prisonstream.com/roster/029" },
+  { name: "Prospect House", desc: "J4denTV's creator profile on Prospect House.", image: phBadge.url, url: "https://prospect-house.com/members/j4dentv" },
+  { name: "Prison Stream", desc: "Roster entry #029.", image: psEmblem.url, url: "https://prisonstream.com/roster/029" },
 ];
 
 export const INTRO = [

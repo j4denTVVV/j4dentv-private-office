@@ -108,7 +108,7 @@ function Story() {
 
         {/* 03 — full-width photographic transition */}
         <section id={`ch-${c3.n}`} className="scroll-mt-24 border-t border-line py-24">
-          <Photo src={PHOTOS.ch3} alt="Jaden at his streaming setup" ratio="aspect-[16/9] md:aspect-[21/9]" parallax onOpen={() => open(PHOTOS.ch3)} />
+          <Photo src={PHOTOS.ch3} alt="Jaden at his streaming setup" ratio="aspect-[4/5] md:aspect-[16/10]" position="object-[50%_30%]" onOpen={() => open(PHOTOS.ch3)} />
           <div className="mt-14 grid gap-10 md:grid-cols-12">
             <div className="md:col-span-4"><ChapterHead n={c3.n} title={c3.title} /></div>
             <div className="md:col-span-6 md:col-start-6"><Body paras={c3.body} /></div>
