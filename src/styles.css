@@ -47,7 +47,7 @@
 }
 
 :root {
-  --radius: 10px;
+  --radius: 8px;
   --background: #060607;
   --surface: #101012;
   --elevated: #19191c;
@@ -109,7 +109,7 @@
   font-family: var(--font-display);
   text-transform: uppercase;
   line-height: 0.88;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 
 @utility link-draw {
@@ -188,7 +188,7 @@
 @utility office-h {
   font-family: var(--font-serif);
   font-weight: 400;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   line-height: 0.95;
 }
 @utility olabel {

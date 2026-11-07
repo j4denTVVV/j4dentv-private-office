@@ -110,14 +110,12 @@ function StoryTeaser() {
 
 function Explore() {
   const items = [
-    { to: "/photographs" as const, n: "02", t: "Photographs" },
-    { to: "/content" as const, n: "03", t: "Content" },
-    { to: "/elsewhere" as const, n: "04", t: "Elsewhere" },
-    { to: "/find-me" as const, n: "05", t: "Find me" },
+    { to: "/elsewhere" as const, n: "02", t: "Elsewhere" },
+    { to: "/find-me" as const, n: "03", t: "Find me" },
   ];
   return (
     <section className="mx-auto max-w-[1440px] px-6 pb-32 pt-12 md:px-10">
-      <div className="grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2">
         {items.map((it, i) => (
           <Reveal key={it.to} delay={i * 0.08} y={20}>
             <Link to={it.to} className="group flex h-full min-h-48 flex-col justify-between bg-background p-6 transition-colors duration-300 hover:bg-surface">

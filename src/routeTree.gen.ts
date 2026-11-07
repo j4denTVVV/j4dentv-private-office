@@ -15,9 +15,9 @@ import { Route as ContentRouteImport } from './routes/content'
 import { Route as ElsewhereRouteImport } from './routes/elsewhere'
 import { Route as FindMeRouteImport } from './routes/find-me'
 import { Route as OfficeRouteImport } from './routes/office'
-import { Route as PhotographsRouteImport } from './routes/photographs'
 import { Route as StoryRouteImport } from './routes/story'
 import { Route as AuthenticatedHqRouteImport } from './routes/_authenticated/hq'
+import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -48,11 +48,6 @@ const OfficeRoute = OfficeRouteImport.update({
   path: '/office',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PhotographsRoute = PhotographsRouteImport.update({
-  id: '/photographs',
-  path: '/photographs',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const StoryRoute = StoryRouteImport.update({
   id: '/story',
   path: '/story',
@@ -63,6 +58,11 @@ const AuthenticatedHqRoute = AuthenticatedHqRouteImport.update({
   path: '/hq',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTasksRoute = AuthenticatedTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -70,9 +70,9 @@ export interface FileRoutesByFullPath {
   '/elsewhere': typeof ElsewhereRoute
   '/find-me': typeof FindMeRoute
   '/office': typeof OfficeRoute
-  '/photographs': typeof PhotographsRoute
   '/story': typeof StoryRoute
   '/hq': typeof AuthenticatedHqRoute
+  '/tasks': typeof AuthenticatedTasksRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -80,9 +80,9 @@ export interface FileRoutesByTo {
   '/elsewhere': typeof ElsewhereRoute
   '/find-me': typeof FindMeRoute
   '/office': typeof OfficeRoute
-  '/photographs': typeof PhotographsRoute
   '/story': typeof StoryRoute
   '/hq': typeof AuthenticatedHqRoute
+  '/tasks': typeof AuthenticatedTasksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -92,9 +92,9 @@ export interface FileRoutesById {
   '/elsewhere': typeof ElsewhereRoute
   '/find-me': typeof FindMeRoute
   '/office': typeof OfficeRoute
-  '/photographs': typeof PhotographsRoute
   '/story': typeof StoryRoute
   '/_authenticated/hq': typeof AuthenticatedHqRoute
+  '/_authenticated/tasks': typeof AuthenticatedTasksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -104,9 +104,9 @@ export interface FileRouteTypes {
     | '/elsewhere'
     | '/find-me'
     | '/office'
-    | '/photographs'
     | '/story'
     | '/hq'
+    | '/tasks'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -114,9 +114,9 @@ export interface FileRouteTypes {
     | '/elsewhere'
     | '/find-me'
     | '/office'
-    | '/photographs'
     | '/story'
     | '/hq'
+    | '/tasks'
   id:
     | '__root__'
     | '/'
@@ -125,9 +125,9 @@ export interface FileRouteTypes {
     | '/elsewhere'
     | '/find-me'
     | '/office'
-    | '/photographs'
     | '/story'
     | '/_authenticated/hq'
+    | '/_authenticated/tasks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -137,7 +137,6 @@ export interface RootRouteChildren {
   ElsewhereRoute: typeof ElsewhereRoute
   FindMeRoute: typeof FindMeRoute
   OfficeRoute: typeof OfficeRoute
-  PhotographsRoute: typeof PhotographsRoute
   StoryRoute: typeof StoryRoute
 }
 
@@ -185,13 +184,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OfficeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/photographs': {
-      id: '/photographs'
-      path: '/photographs'
-      fullPath: '/photographs'
-      preLoaderRoute: typeof PhotographsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/story': {
       id: '/story'
       path: '/story'
@@ -206,15 +198,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHqRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/tasks': {
+      id: '/_authenticated/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof AuthenticatedTasksRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedHqRoute: typeof AuthenticatedHqRoute
+  AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHqRoute: AuthenticatedHqRoute,
+  AuthenticatedTasksRoute: AuthenticatedTasksRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -227,7 +228,6 @@ const rootRouteChildren: RootRouteChildren = {
   ElsewhereRoute: ElsewhereRoute,
   FindMeRoute: FindMeRoute,
   OfficeRoute: OfficeRoute,
-  PhotographsRoute: PhotographsRoute,
   StoryRoute: StoryRoute,
 }
 export const routeTree = rootRouteImport

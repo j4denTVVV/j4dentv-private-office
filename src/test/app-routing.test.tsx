@@ -14,4 +14,14 @@ describe("App routing", () => {
 
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
+  it("keeps the Office overview and tasks behind the authenticated layout", () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+    for (const path of ["/hq", "/tasks"]) {
+      expect(router.matchRoutes(path).map(match => match.routeId)).toContain("/_authenticated");
+    }
+  });
+  it("has no standalone Photographs page", () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+    expect(router.matchRoutes("/photographs").at(-1)?.routeId).toBe(rootRouteId);
+  });
 });
