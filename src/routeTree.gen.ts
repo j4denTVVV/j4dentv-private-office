@@ -17,6 +17,7 @@ import { Route as FindMeRouteImport } from './routes/find-me'
 import { Route as OfficeRouteImport } from './routes/office'
 import { Route as StoryRouteImport } from './routes/story'
 import { Route as AuthenticatedHqRouteImport } from './routes/_authenticated/hq'
+import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -57,6 +58,11 @@ const AuthenticatedHqRoute = AuthenticatedHqRouteImport.update({
   path: '/hq',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTasksRoute = AuthenticatedTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/office': typeof OfficeRoute
   '/story': typeof StoryRoute
   '/hq': typeof AuthenticatedHqRoute
+  '/tasks': typeof AuthenticatedTasksRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/office': typeof OfficeRoute
   '/story': typeof StoryRoute
   '/hq': typeof AuthenticatedHqRoute
+  '/tasks': typeof AuthenticatedTasksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -86,14 +94,29 @@ export interface FileRoutesById {
   '/office': typeof OfficeRoute
   '/story': typeof StoryRoute
   '/_authenticated/hq': typeof AuthenticatedHqRoute
+  '/_authenticated/tasks': typeof AuthenticatedTasksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/content' | '/elsewhere' | '/find-me' | '/office' | '/story' | '/hq'
+    | '/'
+    | '/content'
+    | '/elsewhere'
+    | '/find-me'
+    | '/office'
+    | '/story'
+    | '/hq'
+    | '/tasks'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/content' | '/elsewhere' | '/find-me' | '/office' | '/story' | '/hq'
+    | '/'
+    | '/content'
+    | '/elsewhere'
+    | '/find-me'
+    | '/office'
+    | '/story'
+    | '/hq'
+    | '/tasks'
   id:
     | '__root__'
     | '/'
@@ -104,6 +127,7 @@ export interface FileRouteTypes {
     | '/office'
     | '/story'
     | '/_authenticated/hq'
+    | '/_authenticated/tasks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -174,15 +198,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHqRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/tasks': {
+      id: '/_authenticated/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof AuthenticatedTasksRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedHqRoute: typeof AuthenticatedHqRoute
+  AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHqRoute: AuthenticatedHqRoute,
+  AuthenticatedTasksRoute: AuthenticatedTasksRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
