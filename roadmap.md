@@ -1,4 +1,6 @@
 # J4denTV roadmap
+- [ ] Current request — remove Photographs, merge Content/Find Me, logo-only header, spinning logo, Elsewhere polish and motion
+- [ ] Current request — launch initial Private Office shell, Overview and saved Tasks
 - [x] Phase 1 — design system, public site (home, /story), photos, eye, favicon
 - [ ] Phase 1b — photo approval workflow (needs Lovable Cloud)
 - [ ] Phase 2 — secure owner login + HQ shell + Overview
