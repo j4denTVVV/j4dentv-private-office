@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import { LOGO, SOCIALS } from "@/lib/site";
 import { EASE } from "./motion";
 import { SocialIcon } from "./SocialIcon";
+import { Button } from "@/components/ui/button";
+import { SpinningLogo } from "./SpinningLogo";
 
 const NAV = [
   { label: "Home", to: "/" as const, hash: undefined },
   { label: "My Story", to: "/story" as const, hash: undefined },
-  { label: "Photographs", to: "/photographs" as const, hash: undefined },
-  { label: "Content", to: "/content" as const, hash: undefined },
   { label: "Elsewhere", to: "/elsewhere" as const, hash: undefined },
   { label: "Find Me", to: "/find-me" as const, hash: undefined },
 ];
@@ -45,7 +45,6 @@ export function Navbar() {
       <div className={`mx-auto flex max-w-[1440px] items-center justify-between px-6 transition-[height] duration-300 md:px-10 ${scrolled ? "h-16" : "h-[76px]"}`}>
         <Link to="/" className="flex shrink-0 items-center gap-3" aria-label="J4DENTV home">
           <img src={LOGO} alt="4TV" className="h-7 w-auto" />
-          <span className="display text-xl tracking-wide">J4DENTV</span>
         </Link>
         <nav className="hidden items-center gap-8 lg:flex">
           {NAV.map((n) => (
@@ -58,9 +57,9 @@ export function Navbar() {
           <Link to="/office" aria-label="Private HQ" className="group grid h-10 w-10 place-items-center rounded-lg border border-line text-muted-foreground transition-colors duration-200 hover:border-line-strong hover:bg-elevated hover:text-champagne">
             <KeyRound className="h-4 w-4 transition-transform duration-200 group-hover:-rotate-12" />
           </Link>
-          <button onClick={() => setOpen(true)} aria-label="Open menu" className="grid h-10 w-10 place-items-center rounded-lg border border-line lg:hidden">
+          <Button variant="ghost" onClick={() => setOpen(true)} aria-label="Open menu" className="grid h-10 w-10 place-items-center rounded-lg border border-line lg:hidden">
             <Menu className="h-4 w-4" />
-          </button>
+          </Button>
         </div>
       </div>
       <AnimatePresence>
@@ -68,7 +67,7 @@ export function Navbar() {
           <motion.div className="fixed inset-0 z-50 flex flex-col bg-background px-6 pt-5 lg:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25, ease: EASE }}>
             <div className="flex items-center justify-between">
               <img src={LOGO} alt="4TV" className="h-7 w-auto" />
-              <button onClick={() => setOpen(false)} aria-label="Close menu" className="grid h-10 w-10 place-items-center rounded-lg border border-line"><X className="h-4 w-4" /></button>
+               <Button variant="ghost" onClick={() => setOpen(false)} aria-label="Close menu" className="grid h-10 w-10 place-items-center rounded-lg border border-line"><X className="h-4 w-4" /></Button>
             </div>
             <nav className="mt-14 flex flex-col gap-2">
               {NAV.map((n, i) => (
@@ -104,7 +103,7 @@ export function Footer() {
           ))}
         </div>
         <div className="flex items-start justify-between text-subtle md:col-span-2 md:justify-end">
-          <Eye className="h-3 w-6" />
+            <SpinningLogo />
         </div>
         <p className="text-xs text-subtle md:col-span-12">© {new Date().getFullYear()} J4denTV · 4TV</p>
       </div>

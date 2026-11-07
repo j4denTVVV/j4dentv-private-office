@@ -3,6 +3,7 @@ import { MaskHeading, Line, Photo, Reveal } from "./motion";
 import { useLightbox } from "./Lightbox";
 import { SocialIcon } from "./SocialIcon";
 import { ELSEWHERE, PHOTOS, SOCIALS } from "@/lib/site";
+import { motion, useReducedMotion } from "motion/react";
 
 export function SectionHead({ index, label, title, as = "h2" }: { index: string; label: string; title: string; as?: "h1" | "h2" }) {
   return (
@@ -62,21 +63,22 @@ export function Content() {
 }
 
 export function Elsewhere() {
+  const reduce = useReducedMotion();
   return (
     <section className="mx-auto max-w-[1440px] px-6 pb-24 pt-36 md:px-10">
-      <SectionHead index="04" label="Featured" title="Elsewhere." as="h1" />
+      <SectionHead index="02" label="Featured" title="Elsewhere." as="h1" />
       <div className="grid gap-6 md:grid-cols-2">
         {ELSEWHERE.map((e, i) => (
           <Reveal key={e.url} delay={i * 0.12} y={40}>
-            <a href={e.url} target="_blank" rel="noreferrer" className="lux-row group block overflow-hidden">
-              <div className="relative grid aspect-[16/10] place-items-center overflow-hidden bg-surface">
-                <img src={e.image} alt={`${e.name} emblem`} loading="lazy" className="h-1/2 w-auto object-contain transition-transform duration-700 ease-[var(--ease-lux)] group-hover:scale-110" />
+            <motion.a whileHover={reduce ? undefined : { y: -6 }} transition={{ duration: 0.35 }} href={e.url} target="_blank" rel="noreferrer" className="group block border-b border-line pb-6">
+              <div className="relative grid aspect-[4/3] place-items-center overflow-hidden bg-surface">
+                <motion.img initial={reduce ? false : { scale: 0.85, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 1, delay: i * 0.15 }} src={e.image} alt={`${e.name} emblem`} loading="lazy" className="h-[72%] w-[72%] object-contain transition-transform duration-700 ease-[var(--ease-lux)] group-hover:scale-105" />
               </div>
-              <div className="flex items-center justify-between gap-4 border-t border-line p-6">
-                <div><p className="display text-4xl">{e.name}</p><p className="mt-2 text-sm text-subtle">{e.desc}</p></div>
+              <div className="flex items-center justify-between gap-4 pt-6">
+                <div><p className="display text-3xl sm:text-4xl">{e.name}</p><p className="mt-2 text-sm text-muted-foreground">{e.desc}</p></div>
                 <ArrowUpRight className="lux-arrow h-5 w-5 text-muted-foreground" />
               </div>
-            </a>
+            </motion.a>
           </Reveal>
         ))}
       </div>
@@ -88,7 +90,7 @@ export function FindMe() {
   return (
     <section className="mx-auto grid max-w-[1440px] gap-12 px-6 pb-32 pt-36 md:grid-cols-12 md:px-10">
       <div className="md:col-span-5">
-        <Reveal><p className="eyebrow">05 / Socials</p></Reveal>
+        <Reveal><p className="eyebrow">03 / Watch & connect</p></Reveal>
         <MaskHeading as="h1" className="display mt-4 text-6xl md:text-8xl">Find me.</MaskHeading>
         <Reveal delay={0.15}><p className="mt-6 max-w-sm font-serif text-2xl italic text-muted-foreground">Live on Twitch, everywhere else in between.</p></Reveal>
       </div>
@@ -97,7 +99,7 @@ export function FindMe() {
           <Reveal key={s.name} delay={i * 0.05} y={10}>
             <a href={s.url} target="_blank" rel="noreferrer" className="lux-row grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 px-4 py-4">
               <SocialIcon name={s.name} className="h-5 w-5 text-foreground" />
-              <span className="min-w-0"><span className="block text-sm">{s.name}</span><span className="block truncate text-xs text-subtle">{s.handle}</span></span>
+              <span className="min-w-0"><span className="block text-sm">{s.name}</span><span className="mt-1 block truncate text-xs text-subtle">{s.handle}</span><span className="mt-2 block text-xs text-muted-foreground">{s.name === "Twitch" ? "Live streams" : s.name === "YouTube" ? "Videos & Shorts" : s.name === "TikTok" ? "Short-form clips" : s.name === "Instagram" ? "Photos & Reels" : s.name === "Discord" ? "4TV community" : "Updates"}</span></span>
               <ArrowUpRight className="lux-arrow h-4 w-4 text-muted-foreground" />
             </a>
           </Reveal>

@@ -1,6 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Navbar, Footer } from "@/components/site/Chrome";
-import { Content } from "@/components/site/sections";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/content")({
   head: () => ({
@@ -13,15 +11,5 @@ export const Route = createFileRoute("/content")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: Page,
+  beforeLoad: () => { throw redirect({ to: "/find-me", statusCode: 301 }); },
 });
-
-function Page() {
-  return (
-    <div className="overflow-x-clip">
-      <Navbar />
-      <main><Content /></main>
-      <Footer />
-    </div>
-  );
-}
