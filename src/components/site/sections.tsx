@@ -70,7 +70,7 @@ export function Elsewhere() {
       <div className="grid gap-6 md:grid-cols-2">
         {ELSEWHERE.map((e, i) => (
           <Reveal key={e.url} delay={i * 0.12} y={40}>
-            <motion.a whileHover={reduce ? undefined : { y: -6 }} transition={{ duration: 0.35 }} href={e.url} target="_blank" rel="noreferrer" className="group block border-b border-line pb-6">
+            <motion.a whileHover={reduce ? {} : { y: -6 }} transition={{ duration: 0.35 }} href={e.url} target="_blank" rel="noreferrer" className="group block border-b border-line pb-6">
               <div className="relative grid aspect-[4/3] place-items-center overflow-hidden bg-surface">
                 <motion.img initial={reduce ? false : { scale: 0.85, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 1, delay: i * 0.15 }} src={e.image} alt={`${e.name} emblem`} loading="lazy" className="h-[72%] w-[72%] object-contain transition-transform duration-700 ease-[var(--ease-lux)] group-hover:scale-105" />
               </div>
