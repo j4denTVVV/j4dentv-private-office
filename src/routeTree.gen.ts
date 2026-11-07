@@ -15,7 +15,6 @@ import { Route as ContentRouteImport } from './routes/content'
 import { Route as ElsewhereRouteImport } from './routes/elsewhere'
 import { Route as FindMeRouteImport } from './routes/find-me'
 import { Route as OfficeRouteImport } from './routes/office'
-import { Route as PhotographsRouteImport } from './routes/photographs'
 import { Route as StoryRouteImport } from './routes/story'
 import { Route as AuthenticatedHqRouteImport } from './routes/_authenticated/hq'
 
@@ -48,11 +47,6 @@ const OfficeRoute = OfficeRouteImport.update({
   path: '/office',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PhotographsRoute = PhotographsRouteImport.update({
-  id: '/photographs',
-  path: '/photographs',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const StoryRoute = StoryRouteImport.update({
   id: '/story',
   path: '/story',
@@ -70,7 +64,6 @@ export interface FileRoutesByFullPath {
   '/elsewhere': typeof ElsewhereRoute
   '/find-me': typeof FindMeRoute
   '/office': typeof OfficeRoute
-  '/photographs': typeof PhotographsRoute
   '/story': typeof StoryRoute
   '/hq': typeof AuthenticatedHqRoute
 }
@@ -80,7 +73,6 @@ export interface FileRoutesByTo {
   '/elsewhere': typeof ElsewhereRoute
   '/find-me': typeof FindMeRoute
   '/office': typeof OfficeRoute
-  '/photographs': typeof PhotographsRoute
   '/story': typeof StoryRoute
   '/hq': typeof AuthenticatedHqRoute
 }
@@ -92,31 +84,16 @@ export interface FileRoutesById {
   '/elsewhere': typeof ElsewhereRoute
   '/find-me': typeof FindMeRoute
   '/office': typeof OfficeRoute
-  '/photographs': typeof PhotographsRoute
   '/story': typeof StoryRoute
   '/_authenticated/hq': typeof AuthenticatedHqRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/content'
-    | '/elsewhere'
-    | '/find-me'
-    | '/office'
-    | '/photographs'
-    | '/story'
-    | '/hq'
+    '/' | '/content' | '/elsewhere' | '/find-me' | '/office' | '/story' | '/hq'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/content'
-    | '/elsewhere'
-    | '/find-me'
-    | '/office'
-    | '/photographs'
-    | '/story'
-    | '/hq'
+    '/' | '/content' | '/elsewhere' | '/find-me' | '/office' | '/story' | '/hq'
   id:
     | '__root__'
     | '/'
@@ -125,7 +102,6 @@ export interface FileRouteTypes {
     | '/elsewhere'
     | '/find-me'
     | '/office'
-    | '/photographs'
     | '/story'
     | '/_authenticated/hq'
   fileRoutesById: FileRoutesById
@@ -137,7 +113,6 @@ export interface RootRouteChildren {
   ElsewhereRoute: typeof ElsewhereRoute
   FindMeRoute: typeof FindMeRoute
   OfficeRoute: typeof OfficeRoute
-  PhotographsRoute: typeof PhotographsRoute
   StoryRoute: typeof StoryRoute
 }
 
@@ -185,13 +160,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OfficeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/photographs': {
-      id: '/photographs'
-      path: '/photographs'
-      fullPath: '/photographs'
-      preLoaderRoute: typeof PhotographsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/story': {
       id: '/story'
       path: '/story'
@@ -227,7 +195,6 @@ const rootRouteChildren: RootRouteChildren = {
   ElsewhereRoute: ElsewhereRoute,
   FindMeRoute: FindMeRoute,
   OfficeRoute: OfficeRoute,
-  PhotographsRoute: PhotographsRoute,
   StoryRoute: StoryRoute,
 }
 export const routeTree = rootRouteImport

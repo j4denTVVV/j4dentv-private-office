@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
+import { OfficeShell } from "@/components/office/OfficeShell";
 
 let lastCheck = 0;
 
@@ -18,5 +19,5 @@ export const Route = createFileRoute("/_authenticated")({
       lastCheck = Date.now();
     }
   },
-  component: () => <Outlet />,
+  component: () => <OfficeShell><Outlet /></OfficeShell>,
 });
