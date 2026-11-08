@@ -174,11 +174,11 @@
 .office {
   --background: #10100f;
   --surface: #191917;
-  --elevated: #1f1f1c;
+  --elevated: #211f1b;
   --hover: #262622;
   --foreground: #f2efe8;
-  --muted-foreground: #96938c;
-  --subtle: #6f6c66;
+  --muted-foreground: #a09b92;
+  --subtle: #77736c;
   --champagne: #b69a70;
   --line: #302e2a;
   --line-strong: #45423c;
@@ -192,8 +192,32 @@
   line-height: 0.95;
 }
 @utility olabel {
-  font-size: 11px;
-  letter-spacing: 0.16em;
+  font-size: 12px;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--subtle);
+}
+
+.office { font-size: 14px; }
+.office input, .office select, .office textarea { color-scheme: dark; }
+.office .office-page-title { font-family: var(--font-serif); font-size: 44px; line-height: 1.1; }
+.office-section { border-top: 1px solid var(--line); padding-top: 24px; min-width: 0; }
+.office-section h2 { font-family: var(--font-serif); font-size: 28px; line-height: 1.2; }
+.office-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 32px; }
+.office-rail { width: 244px; }
+.office-rail[data-collapsed=true] { width: 72px; }
+.office-frame { padding-left: 244px; }
+.office-frame[data-collapsed=true] { padding-left: 72px; }
+.office-nav-link { display: flex; align-items: center; gap: 12px; min-height: 38px; padding: 8px 12px; border-radius: 5px; color: var(--muted-foreground); transition: background 180ms, color 180ms; }
+.office-nav-link:hover { background: var(--hover); color: var(--foreground); }
+.office-nav-link[data-status=active] { color: var(--champagne); background: var(--elevated); box-shadow: inset 2px 0 var(--champagne); }
+.office-calendar-cell { min-height: 116px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 8px; min-width: 0; }
+@media (max-width: 1023px) {
+ .office-frame, .office-frame[data-collapsed=true] { padding-left: 0; }
+ .office-rail, .office-rail[data-collapsed=true] { width: min(320px, 88vw); }
+}
+@media (max-width: 767px) {
+ .office-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+ .office-calendar-cell { min-height: 80px; padding: 4px; }
+ .office .office-page-title { font-size: 36px; }
 }

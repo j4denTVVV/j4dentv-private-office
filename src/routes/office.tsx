@@ -8,6 +8,7 @@ import { LOGO } from "@/lib/site";
 import { lux } from "@/components/ui/lux-button";
 import { enterOffice } from "@/lib/office/auth.functions";
 import { supabase } from "@/integrations/supabase/client";
+import { INTRO_PENDING } from "@/lib/office/workspace";
 
 export const Route = createFileRoute("/office")({
   validateSearch: (s: Record<string, unknown>): { expired?: boolean | undefined } => ({ expired: s["expired"] ? true : undefined }),
@@ -45,6 +46,7 @@ function Login() {
       const { error } = await supabase.auth.setSession({ access_token: r.access_token, refresh_token: r.refresh_token });
       if (error) { setErr(error.message); return; }
       setPw("");
+      sessionStorage.setItem(INTRO_PENDING, "1");
       navigate({ to: "/hq", replace: true });
     } catch (e) {
       setErr(e instanceof Error ? e.message : "Couldn't reach the office. Try again.");

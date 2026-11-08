@@ -1,0 +1,14 @@
+ALTER TABLE public.office_settings ADD COLUMN IF NOT EXISTS sidebar_collapsed boolean NOT NULL DEFAULT false;
+ALTER TABLE public.archive_items ADD COLUMN IF NOT EXISTS album text;
+ALTER TABLE public.collabs ADD COLUMN IF NOT EXISTS planned_date date;
+ALTER TABLE public.equipment ADD COLUMN IF NOT EXISTS currency text NOT NULL DEFAULT 'GBP';
+CREATE TABLE public.website_drafts (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL DEFAULT auth.uid(), section_key text NOT NULL, title text NOT NULL, body text NOT NULL DEFAULT '', published_body text, published_title text, published_at timestamptz, created_at timestamptz NOT NULL DEFAULT now(), UNIQUE(owner_id,section_key));
+GRANT SELECT,INSERT,UPDATE,DELETE ON public.website_drafts TO authenticated;
+GRANT ALL ON public.website_drafts TO service_role;
+ALTER TABLE public.website_drafts ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "owner office access" ON public.website_drafts FOR ALL TO authenticated USING (owner_id=auth.uid() AND public.office_session_ok()) WITH CHECK (owner_id=auth.uid() AND public.office_session_ok());
+CREATE OR REPLACE FUNCTION public.public_biography() RETURNS TABLE(section_key text,title text,body text) LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public AS $$ SELECT section_key,published_title,published_body FROM public.website_drafts WHERE published_at IS NOT NULL $$;
+REVOKE ALL ON FUNCTION public.public_biography() FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.public_biography() TO anon,authenticated;
+CREATE OR REPLACE FUNCTION public.record_office_activity() RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=public AS $$ BEGIN INSERT INTO public.activity(owner_id,kind,label) VALUES(NEW.owner_id,TG_TABLE_NAME, CASE WHEN TG_TABLE_NAME='tasks' AND to_jsonb(NEW)->>'status'='done' THEN 'Completed task: ' ELSE CASE WHEN TG_OP='INSERT' THEN 'Created: ' ELSE 'Updated: ' END END || COALESCE(to_jsonb(NEW)->>'title',to_jsonb(NEW)->>'name',to_jsonb(NEW)->>'label','Workspace record')); RETURN NEW; END $$;
+DO $$ DECLARE t text; BEGIN FOREACH t IN ARRAY ARRAY['ideas','streams','content_projects','collabs','goals','equipment','weekly_reviews','analytics_entries','archive_items','website_drafts'] LOOP IF NOT EXISTS(SELECT 1 FROM pg_trigger WHERE tgrelid=('public.'||t)::regclass AND NOT tgisinternal AND tgname='office_activity') THEN EXECUTE format('CREATE TRIGGER office_activity AFTER INSERT OR UPDATE ON public.%I FOR EACH ROW EXECUTE FUNCTION public.record_office_activity()',t); END IF; END LOOP; END $$;

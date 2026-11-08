@@ -73,6 +73,7 @@ export type Database = {
       }
       archive_items: {
         Row: {
+          album: string | null
           created_at: string
           description: string | null
           id: string
@@ -82,6 +83,7 @@ export type Database = {
           visibility: string
         }
         Insert: {
+          album?: string | null
           created_at?: string
           description?: string | null
           id?: string
@@ -91,6 +93,7 @@ export type Database = {
           visibility?: string
         }
         Update: {
+          album?: string | null
           created_at?: string
           description?: string | null
           id?: string
@@ -114,6 +117,7 @@ export type Database = {
           notes: string | null
           outreach_date: string | null
           owner_id: string
+          planned_date: string | null
           platform: string | null
           profile_url: string | null
           stage: string
@@ -131,6 +135,7 @@ export type Database = {
           notes?: string | null
           outreach_date?: string | null
           owner_id?: string
+          planned_date?: string | null
           platform?: string | null
           profile_url?: string | null
           stage?: string
@@ -148,6 +153,7 @@ export type Database = {
           notes?: string | null
           outreach_date?: string | null
           owner_id?: string
+          planned_date?: string | null
           platform?: string | null
           profile_url?: string | null
           stage?: string
@@ -220,6 +226,7 @@ export type Database = {
           brand: string | null
           category: string | null
           created_at: string
+          currency: string
           id: string
           link: string | null
           name: string
@@ -232,6 +239,7 @@ export type Database = {
           brand?: string | null
           category?: string | null
           created_at?: string
+          currency?: string
           id?: string
           link?: string | null
           name: string
@@ -244,6 +252,7 @@ export type Database = {
           brand?: string | null
           category?: string | null
           created_at?: string
+          currency?: string
           id?: string
           link?: string | null
           name?: string
@@ -515,6 +524,7 @@ export type Database = {
           owner_id: string
           play_opening: boolean
           reduce_motion: boolean
+          sidebar_collapsed: boolean
         }
         Insert: {
           created_at?: string
@@ -523,6 +533,7 @@ export type Database = {
           owner_id?: string
           play_opening?: boolean
           reduce_motion?: boolean
+          sidebar_collapsed?: boolean
         }
         Update: {
           created_at?: string
@@ -531,6 +542,7 @@ export type Database = {
           owner_id?: string
           play_opening?: boolean
           reduce_motion?: boolean
+          sidebar_collapsed?: boolean
         }
         Relationships: []
       }
@@ -692,6 +704,42 @@ export type Database = {
         }
         Relationships: []
       }
+      website_drafts: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          owner_id: string
+          published_at: string | null
+          published_body: string | null
+          published_title: string | null
+          section_key: string
+          title: string
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          id?: string
+          owner_id?: string
+          published_at?: string | null
+          published_body?: string | null
+          published_title?: string | null
+          section_key: string
+          title: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          owner_id?: string
+          published_at?: string | null
+          published_body?: string | null
+          published_title?: string | null
+          section_key?: string
+          title?: string
+        }
+        Relationships: []
+      }
       weekly_reviews: {
         Row: {
           challenges: string | null
@@ -737,6 +785,14 @@ export type Database = {
     }
     Functions: {
       office_session_ok: { Args: never; Returns: boolean }
+      public_biography: {
+        Args: never
+        Returns: {
+          body: string
+          section_key: string
+          title: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
