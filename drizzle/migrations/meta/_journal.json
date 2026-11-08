@@ -15,6 +15,13 @@
       "when": 1793868147816,
       "tag": "0001_office_extra_tables",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794151647610,
+      "tag": "0002_office_workspace_extensions",
+      "breakpoints": true
     }
   ]
 }
