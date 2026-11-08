@@ -1,71 +1,41 @@
-import { Link, useNavigate, useLocation } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState, type ReactNode } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Menu, X, Plus, LockKeyhole, ArrowUpRight, RotateCcw } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { LOGO } from "@/lib/site";
-import { EASE } from "@/components/site/motion";
-import { Button } from "@/components/ui/button";
-import { OPENING_KEY } from "@/lib/office/nav";
-
-export function OfficeShell({ children }: { children: ReactNode }) {
-  const [menu, setMenu] = useState(false);
-  const [intro, setIntro] = useState(false);
-  const reduce = useReducedMotion();
-  const navigate = useNavigate();
-  const path = useLocation({ select: l => l.pathname });
-  const qc = useQueryClient();
-  useEffect(() => {
-    if (!reduce && !sessionStorage.getItem(OPENING_KEY)) {
-      sessionStorage.setItem(OPENING_KEY, "1"); setIntro(true);
-    }
-  }, [reduce]);
-  useEffect(() => {
-    if (!intro) return;
-    const timer = setTimeout(() => setIntro(false), 2200);
-    return () => clearTimeout(timer);
-  }, [intro]);
-  useEffect(() => { setMenu(false); }, [path]);
-  useEffect(() => {
-    const close = (e: KeyboardEvent) => { if (e.key === "Escape") { setMenu(false); setIntro(false); } };
-    window.addEventListener("keydown", close); return () => window.removeEventListener("keydown", close);
-  }, []);
-  async function lock() {
-    await qc.cancelQueries(); qc.clear();
-    await supabase.auth.signOut();
-    navigate({ to: "/office", replace: true });
-  }
-  return <div className="office min-h-screen">
-    <header className="border-b border-line">
-      <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between gap-3 px-6 md:px-10">
-        <Link to="/hq" aria-label="Office overview"><img src={LOGO} alt="4TV" className="h-8 w-auto" /></Link>
-        <span className="hidden font-serif text-xl italic text-muted-foreground sm:block">The Private Office</span>
-        <div className="flex items-center gap-2">
-          <Button asChild variant="ghost" size="icon" title="Add task"><Link to="/tasks" search={{ new: "Task" }} aria-label="Add task"><Plus /></Link></Button>
-          <Button variant="ghost" size="icon" title="Replay opening" aria-label="Replay opening" onClick={() => setIntro(true)}><RotateCcw /></Button>
-          <Button variant="ghost" size="icon" title="Lock Office" aria-label="Lock Office" onClick={lock}><LockKeyhole /></Button>
-          <Button variant="outline" size="icon" title="Office menu" aria-label="Office menu" onClick={() => setMenu(!menu)}>{menu ? <X /> : <Menu />}</Button>
-        </div>
-      </div>
-    </header>
-    <AnimatePresence>
-      {menu && <motion.nav aria-label="Office navigation" initial={reduce ? false : { opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden border-b border-line bg-surface">
-        <div className="mx-auto grid max-w-[1440px] gap-6 px-6 py-10 md:grid-cols-3 md:px-10">
-          <Link to="/hq" className="group flex items-center justify-between border-b border-line pb-5 font-serif text-4xl">Overview <ArrowUpRight className="h-5 w-5 text-champagne" /></Link>
-          <Link to="/tasks" search={{}} className="group flex items-center justify-between border-b border-line pb-5 font-serif text-4xl">Tasks <ArrowUpRight className="h-5 w-5 text-champagne" /></Link>
-          <Link to="/" className="flex items-center justify-between border-b border-line pb-5 font-serif text-3xl text-muted-foreground">Public website <ArrowUpRight className="h-5 w-5" /></Link>
-        </div>
-      </motion.nav>}
-    </AnimatePresence>
-    <main className="mx-auto max-w-[1440px] px-6 py-12 md:px-10 md:py-16">{children}</main>
-    <AnimatePresence>
-      {intro && <motion.div role="dialog" aria-label="Office opening" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[80] flex flex-col items-center justify-center bg-background">
-        <div className="flex flex-col gap-4 overflow-hidden text-center sm:flex-row sm:gap-10">
-          {["Plan.", "Create.", "Refine."].map((word, i) => <motion.span key={word} initial={reduce ? false : { y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.65, delay: i * 0.25, ease: EASE }} className="font-serif text-6xl md:text-8xl">{word}</motion.span>)}
-        </div>
-        <Button variant="ghost" className="absolute bottom-12 text-muted-foreground" onClick={() => setIntro(false)}>Skip</Button>
-      </motion.div>}
-    </AnimatePresence>
-  </div>;
+import { Link, useNavigate, useLocation } from '@tanstack/react-router';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { Menu, Plus, LockKeyhole, PanelLeftClose, PanelLeftOpen, Search, LayoutDashboard, CheckSquare, Timer, CalendarDays, Radio, Gamepad2, Clapperboard, Lightbulb, Users, ChartNoAxesCombined, Target, NotebookPen, Images, Globe, Wrench, Monitor, Settings, ArrowUpRight } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { LOGO } from '@/lib/site';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from '@/components/ui/command';
+import { NAV_GROUPS, QUICK_ADD, titleFor } from '@/lib/office/nav';
+import { rowsQuery, INTRO_PENDING, shouldPlayIntro } from '@/lib/office/workspace';
+import { Opening } from './Opening';
+const icons=[LayoutDashboard,CheckSquare,Timer,CalendarDays,Radio,Gamepad2,Clapperboard,Lightbulb,Users,ChartNoAxesCombined,Target,NotebookPen,Images,Globe,Wrench,Monitor];
+const searchTables=['tasks','streams','content_projects','ideas','collabs','goals','archive_items'] as const;
+const searchPaths=['/tasks','/live','/studio','/ideas','/collabs','/goals','/archive'] as const;
+const searchLabels=['Tasks','Streams','Content','Ideas','Collaborations','Goals','Archive'];
+export function OfficeShell({children}:{children:ReactNode}) {
+ const [collapsed,setCollapsed]=useState(false),[drawer,setDrawer]=useState(false),[quick,setQuick]=useState(false),[search,setSearch]=useState(false),[intro,setIntro]=useState(false);
+ const reduce=useReducedMotion(); const navigate=useNavigate(); const qc=useQueryClient(); const path=useLocation({select:l=>l.pathname});
+ const {data:settings}=useQuery({...rowsQuery('office_settings')});
+ const closeIntro=useCallback(()=>setIntro(false),[]);
+ useEffect(()=>{setCollapsed(localStorage.getItem('office-sidebar')==='collapsed')},[]);
+ useEffect(()=>{ if(!settings) return; const pending=sessionStorage.getItem(INTRO_PENDING)==='1'; sessionStorage.removeItem(INTRO_PENDING); if(shouldPlayIntro(pending,settings[0]?.play_opening??true,!!reduce||!!settings[0]?.reduce_motion))setIntro(true); },[settings,reduce]);
+ useEffect(()=>{setDrawer(false)},[path]);
+ useEffect(()=>{const key=(e:KeyboardEvent)=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();setSearch(s=>!s)}};window.addEventListener('keydown',key);const replay=()=>setIntro(true);window.addEventListener('office-replay',replay);return()=>{window.removeEventListener('keydown',key);window.removeEventListener('office-replay',replay)}},[]);
+ const results=searchTables.map(table=>useQuery({...rowsQuery(table),enabled:search}));
+ function toggle(){const next=!collapsed;setCollapsed(next);localStorage.setItem('office-sidebar',next?'collapsed':'expanded')}
+ async function lock(){await qc.cancelQueries();qc.clear();await supabase.auth.signOut();await navigate({to:'/office',replace:true})}
+ let iconIndex=0;
+ const nav=<><div className={`flex items-center gap-3 px-5 py-6 ${collapsed?'lg:px-4':''}`}><img src={LOGO} alt="4TV" className="w-10 shrink-0"/><div className={collapsed?'lg:hidden':''}><p className="font-medium">J4denTV</p><p className="mt-1 text-[10px] text-muted-foreground">THE PRIVATE OFFICE</p></div></div>
+ <nav aria-label="Office navigation" className="flex-1 space-y-5 overflow-y-auto px-3 pb-6">{NAV_GROUPS.map(g=><div key={g.group}><p className={`mb-2 px-3 text-[11px] uppercase text-subtle ${collapsed?'lg:hidden':''}`}>{g.group}</p><div className="space-y-1">{g.items.map(item=>{const Icon=icons[iconIndex++]??Globe;return <Link key={item.to} to={item.to} search={{}} className="office-nav-link" title={collapsed?item.label:undefined}><Icon className="h-[18px] w-[18px] shrink-0"/><span className={collapsed?'lg:hidden':''}>{item.label}</span></Link>})}</div></div>)}<div><p className={`mb-2 px-3 text-[11px] text-subtle ${collapsed?'lg:hidden':''}`}>ACCOUNT</p><Link to="/settings" className="office-nav-link"><Settings className="h-[18px] w-[18px] shrink-0"/><span className={collapsed?'lg:hidden':''}>Settings</span></Link></div></nav>
+ <div className="space-y-1 border-t border-line p-3"><Button asChild variant="ghost" className="w-full justify-start"><Link to="/" title="View Public Website"><ArrowUpRight/><span className={collapsed?'lg:hidden':''}>View Public Website</span></Link></Button><Button variant="ghost" onClick={lock} className="w-full justify-start" title="Lock Office"><LockKeyhole/><span className={collapsed?'lg:hidden':''}>Lock Office</span></Button><Button variant="ghost" onClick={toggle} className="hidden w-full justify-start lg:flex" title={collapsed?'Expand Sidebar':'Collapse Sidebar'} aria-label={collapsed?'Expand Sidebar':'Collapse Sidebar'}>{collapsed?<PanelLeftOpen/>:<PanelLeftClose/>}{!collapsed&&'Collapse Sidebar'}</Button></div></>;
+ return <div className="office min-h-screen"><aside className="office-rail fixed inset-y-0 left-0 z-40 hidden flex-col border-r border-line bg-surface lg:flex" data-collapsed={collapsed}>{nav}</aside>
+ <Dialog open={drawer} onOpenChange={setDrawer}><DialogContent className="office inset-y-0 left-0 top-0 h-dvh max-w-xs translate-x-0 translate-y-0 rounded-none p-0"><DialogTitle className="sr-only">Office menu</DialogTitle><div className="flex h-full flex-col">{nav}</div></DialogContent></Dialog>
+ <div className="office-frame min-w-0" data-collapsed={collapsed}><header className="sticky top-0 z-30 flex h-[72px] items-center justify-between gap-3 border-b border-line bg-background/95 px-4 backdrop-blur-md md:px-8"><div className="flex min-w-0 items-center gap-3"><Button variant="ghost" size="icon" aria-label="Office menu" onClick={()=>setDrawer(true)} className="lg:hidden"><Menu/></Button><span className="truncate text-sm text-muted-foreground">Office <span className="mx-2 text-subtle">/</span> <span className="text-foreground">{titleFor(path)}</span></span></div><div className="flex items-center gap-2"><Button variant="ghost" aria-label="Global search" onClick={()=>setSearch(true)}><Search/><span className="hidden text-muted-foreground md:inline">Search anything</span></Button><Button onClick={()=>setQuick(true)}><Plus/><span className="hidden sm:inline">Quick Add</span></Button><Button asChild variant="secondary" size="icon" aria-label="Profile and settings"><Link to="/settings">J4</Link></Button></div></header>
+ <main className="mx-auto max-w-[1640px] p-4 py-7 md:p-8"><motion.div key={path} initial={reduce?false:{opacity:0,y:8}} animate={{opacity:1,y:0}} transition={{duration:.25}}>{children}</motion.div></main></div>
+ <Dialog open={quick} onOpenChange={setQuick}><DialogContent className="office max-w-xl"><DialogTitle className="font-serif text-3xl">Create something</DialogTitle><div className="mt-4 grid gap-2 sm:grid-cols-2">{QUICK_ADD.map((q,i)=>{const Icon=[Radio,Target,Radio,Radio,Clapperboard,Lightbulb,Target,Users,CheckSquare][i]??Plus;return <Button asChild variant="outline" key={q.type} className="h-14 justify-start"><Link to={q.to} search={{new:q.type}} onClick={()=>setQuick(false)}><Icon/>New {q.label}</Link></Button>})}</div></DialogContent></Dialog>
+ <Dialog open={search} onOpenChange={setSearch}><DialogContent className="office p-0"><DialogTitle className="sr-only">Global search</DialogTitle><Command><CommandInput placeholder="Search the Office…"/><CommandList><CommandEmpty>No matching records.</CommandEmpty>{results.map((r,i)=><CommandGroup key={searchTables[i]} heading={searchLabels[i]}>{r.isError&&<p className="p-3 text-sm text-destructive">Couldn't load results.</p>}{r.data?.map(row=>{const record=row as unknown as Record<string,unknown>;const label=String(record['title']??record['name']??record['photo_key']??'Untitled');return <CommandItem key={String(record['id'])} value={`${searchLabels[i]} ${label}`} onSelect={()=>{setSearch(false);navigate({to:searchPaths[i],search:{open:String(record['id'])}})}}>{label}</CommandItem>})}</CommandGroup>)}</CommandList></Command></DialogContent></Dialog>
+ <AnimatePresence>{intro&&<Opening close={closeIntro}/>}</AnimatePresence></div>
 }
