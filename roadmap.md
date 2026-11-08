@@ -1,4 +1,7 @@
 # J4denTV roadmap
+- [ ] Complete Office rebuild — shell, sidebar, login intro, information-rich Overview
+- [ ] Complete Office rebuild — all workspace pages, persistent forms, Quick Add and global search
+- [ ] Complete Office rebuild — archive/CMS controls and desktop/mobile end-to-end checks
 - [ ] Current request — remove Photographs, merge Content/Find Me, logo-only header, spinning logo, Elsewhere polish and motion
 - [ ] Current request — launch initial Private Office shell, Overview and saved Tasks
 - [x] Phase 1 — design system, public site (home, /story), photos, eye, favicon
