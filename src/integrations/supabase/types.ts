@@ -273,6 +273,7 @@ export type Database = {
           link_type: string | null
           notes: string | null
           owner_id: string
+          project_id: string | null
           starts_at: string
           title: string
         }
@@ -285,6 +286,7 @@ export type Database = {
           link_type?: string | null
           notes?: string | null
           owner_id?: string
+          project_id?: string | null
           starts_at: string
           title: string
         }
@@ -297,10 +299,19 @@ export type Database = {
           link_type?: string | null
           notes?: string | null
           owner_id?: string
+          project_id?: string | null
           starts_at?: string
           title?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "events_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "office_records"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       focus_sessions: {
         Row: {
@@ -310,6 +321,7 @@ export type Database = {
           label: string | null
           notes: string | null
           owner_id: string
+          project_id: string | null
           started_at: string
           task_id: string | null
         }
@@ -320,6 +332,7 @@ export type Database = {
           label?: string | null
           notes?: string | null
           owner_id?: string
+          project_id?: string | null
           started_at: string
           task_id?: string | null
         }
@@ -330,10 +343,18 @@ export type Database = {
           label?: string | null
           notes?: string | null
           owner_id?: string
+          project_id?: string | null
           started_at?: string
           task_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "focus_sessions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "office_records"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "focus_sessions_task_id_fkey"
             columns: ["task_id"]
@@ -516,6 +537,130 @@ export type Database = {
         }
         Relationships: []
       }
+      office_links: {
+        Row: {
+          created_at: string
+          id: string
+          owner_id: string
+          record_id: string
+          target_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          owner_id?: string
+          record_id: string
+          target_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          owner_id?: string
+          record_id?: string
+          target_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "office_links_record_id_fkey"
+            columns: ["record_id"]
+            isOneToOne: false
+            referencedRelation: "office_records"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "office_links_target_id_fkey"
+            columns: ["target_id"]
+            isOneToOne: false
+            referencedRelation: "office_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      office_recent: {
+        Row: {
+          opened_at: string
+          owner_id: string
+          record_id: string
+          view: string
+        }
+        Insert: {
+          opened_at?: string
+          owner_id?: string
+          record_id: string
+          view?: string
+        }
+        Update: {
+          opened_at?: string
+          owner_id?: string
+          record_id?: string
+          view?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "office_recent_record_id_fkey"
+            columns: ["record_id"]
+            isOneToOne: false
+            referencedRelation: "office_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      office_records: {
+        Row: {
+          body: string
+          category: string
+          created_at: string
+          data: Json
+          due_date: string | null
+          id: string
+          kind: string
+          owner_id: string
+          project_id: string | null
+          status: string
+          tags: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          category?: string
+          created_at?: string
+          data?: Json
+          due_date?: string | null
+          id?: string
+          kind: string
+          owner_id?: string
+          project_id?: string | null
+          status?: string
+          tags?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          category?: string
+          created_at?: string
+          data?: Json
+          due_date?: string | null
+          id?: string
+          kind?: string
+          owner_id?: string
+          project_id?: string | null
+          status?: string
+          tags?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "office_records_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "office_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       office_settings: {
         Row: {
           created_at: string
@@ -667,6 +812,7 @@ export type Database = {
           notes: string | null
           owner_id: string
           priority: string
+          project_id: string | null
           related_id: string | null
           related_type: string | null
           status: string
@@ -682,6 +828,7 @@ export type Database = {
           notes?: string | null
           owner_id?: string
           priority?: string
+          project_id?: string | null
           related_id?: string | null
           related_type?: string | null
           status?: string
@@ -697,12 +844,21 @@ export type Database = {
           notes?: string | null
           owner_id?: string
           priority?: string
+          project_id?: string | null
           related_id?: string | null
           related_type?: string | null
           status?: string
           title?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "office_records"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       website_drafts: {
         Row: {
@@ -785,6 +941,14 @@ export type Database = {
     }
     Functions: {
       office_session_ok: { Args: never; Returns: boolean }
+      organise_inbox: {
+        Args: {
+          destination: string
+          item_id: string
+          selected_project?: string
+        }
+        Returns: string
+      }
       public_biography: {
         Args: never
         Returns: {

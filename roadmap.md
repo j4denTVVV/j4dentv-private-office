@@ -1,4 +1,9 @@
 # J4denTV roadmap
+- [ ] Personal Office phase 1 — modern identity, new navigation, authenticated opening, Command Centre and Quick Capture
+- [ ] Personal Office phase 2 — Inbox triage, connected Projects, Calendar and Workshop
+- [ ] Personal Office phase 3 — People, private Library uploads, Playbooks and Focus
+- [ ] Personal Office phase 4 — weekly/monthly Review, global search, recently opened and real activity
+- [ ] Personal Office phase 5 — authenticated create/edit/link/upload checks and desktop/mobile testing
 - [x] Visitor welcome splash — 4TV logo, cinematic sequence, session-only playback, instant skip and accessibility checks
 - [ ] Complete Office rebuild — shell, sidebar, login intro, information-rich Overview
 - [ ] Complete Office rebuild — all workspace pages, persistent forms, Quick Add and global search
