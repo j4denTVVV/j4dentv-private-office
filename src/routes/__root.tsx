@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LightboxProvider } from "@/components/site/Lightbox";
 import { lux } from "@/components/ui/lux-button";
 import { Toaster } from "@/components/ui/sonner";
+import { WelcomeIntro } from "@/components/site/WelcomeIntro";
 
 function NotFoundComponent() {
   return (
@@ -91,6 +92,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <LightboxProvider>
         <Outlet />
+        <WelcomeIntro />
         <Toaster />
       </LightboxProvider>
     </QueryClientProvider>

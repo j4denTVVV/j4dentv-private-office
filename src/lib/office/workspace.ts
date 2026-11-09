@@ -1,4 +1,4 @@
-import { queryOptions } from '@tanstack/react-query';
+import { queryOptions, type QueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import type { TName, Row } from './data';
 export const STAGES = ['idea','planned','recording','editing','review','ready','scheduled','published'] as const;
@@ -12,5 +12,5 @@ export function rowsQuery<T extends TName>(table: T) {
  }});
 }
 export const overviewTables = ['tasks','streams','content_projects','ideas','collabs','events','goals','activity'] as const;
-export async function loadOverview(qc: {ensureQueryData: (q: ReturnType<typeof rowsQuery>) => unknown}) { await Promise.all(overviewTables.map(t=>qc.ensureQueryData(rowsQuery(t)))); }
+export async function loadOverview(qc: QueryClient) { await Promise.all(overviewTables.map(t=>qc.ensureQueryData(rowsQuery(t)))); }
 export function officeHead(title: string) { const full = `${title} — J4denTV Private Office`; const desc = `J4denTV's private ${title.toLowerCase()} workspace.`; return {meta:[{title:full},{name:'description',content:desc},{name:'robots',content:'noindex, nofollow'},{property:'og:title',content:full},{property:'og:description',content:desc},{property:'og:type',content:'website'},{name:'twitter:card',content:'summary'}]}; }

@@ -1,4 +1,5 @@
 # J4denTV roadmap
+- [x] Visitor welcome splash — 4TV logo, cinematic sequence, session-only playback, instant skip and accessibility checks
 - [ ] Complete Office rebuild — shell, sidebar, login intro, information-rich Overview
 - [ ] Complete Office rebuild — all workspace pages, persistent forms, Quick Add and global search
 - [ ] Complete Office rebuild — archive/CMS controls and desktop/mobile end-to-end checks
