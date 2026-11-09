@@ -78,7 +78,21 @@
 
   --shadow-photo: 0 30px 60px -30px rgba(0, 0, 0, 0.8);
   --dur-hover: 220ms;
+  --welcome-amber: oklch(0.75 0.16 57);
+  --welcome-steel: oklch(0.67 0.015 250);
+  --welcome-light: radial-gradient(ellipse at 50% 44%, color-mix(in oklab, var(--welcome-amber) 14%, transparent), transparent 58%);
+  --welcome-metal: linear-gradient(180deg, var(--foreground) 10%, var(--welcome-steel) 65%, var(--welcome-amber) 140%);
+  --welcome-divider: linear-gradient(90deg, transparent, var(--welcome-amber), transparent);
+  --welcome-backlight: 0 0 28px color-mix(in oklab, var(--welcome-amber) 28%, transparent);
 }
+
+.welcome-intro { --muted-foreground: var(--welcome-steel); }
+.welcome-spotlight { background: var(--welcome-light); }
+.welcome-logo { filter: drop-shadow(var(--welcome-backlight)); }
+.welcome-title { background: var(--welcome-metal); background-clip: text; color: transparent; }
+.welcome-divider { background: var(--welcome-divider); }
+.welcome-skip { animation: welcome-pulse 2s ease-in-out infinite; }
+@keyframes welcome-pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.8; } }
 
 @layer base {
   * { border-color: var(--color-border); }
